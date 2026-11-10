@@ -1,0 +1,53 @@
+# Calling EKS Cluster
+module "eks" {
+  # source = "git::https://github.com/vaheedgit26/infra-1.0.git//modules/eks"
+
+  source = "../../modules/eks"
+
+  project             = var.project  # "shopverse"
+  env                 = var.env      # "dev"
+
+  vpc_id                           = module.vpc.vpc_id
+
+  # Cluster Variables
+  cluster_name                     = local.eks_cluster_name
+  cluster_version                  = "1.33"
+  cluster_subnet_ids               = local.eks_cluster_subnet_ids       # (since vpc outputs as list, so [] not required)
+  cluster_endpoint_public_access   = false                              # Control plane public access
+  cluster_endpoint_private_access  = true                               # Control plane to Node and vice versa communication
+
+  # NodeGroup Common variables
+  node_subnet_ids       = local.eks_node_subnet_ids
+  node_auto_scaler_tags = local.node_auto_scaler_tags
+  
+  # Application NodeGroup Variables
+  app_node_instance_types = ["t3.small"]
+  app_node_capacity_type  = "SPOT"         # ON_DEMAND / SPOT
+
+  app_node_min_size         = 2
+  app_node_max_size         = 4
+  app_node_desired_capacity = 2
+  
+  # CI NodeGroup Variables
+  create_ci_nodegroup     = true
+  ci_node_instance_types  = ["t3.small"]
+  ci_node_capacity_type   = "SPOT"         # ON_DEMAND / SPOT
+
+  ci_node_min_size         = 1
+  ci_node_max_size         = 3
+  ci_node_desired_capacity = 1
+
+  # Cluster and Node access from Bastion
+  enable_cluster_access_from_bastion  = true
+  enable_node_ssh_access_from_bastion = true
+  node_ssh_key_name = var.public_key_name       # "us-east-1"
+
+  bastion_sg_id = local.bastion_sg_id                     
+
+
+  # public_subnet_ids   = module.vpc.public_subnet_ids      # For Tagging 
+  # private_subnet_ids  = module.vpc.private_subnet_ids     # For Tagging 
+
+  # node_addl_sg_ids     = [module.bastion_sg.sg_id]        # SSH to Node instance, This is additional cluster SG and the default cluster SG is intact
+  # cluster_addl_sg_ids  = [module.vpc.bastion_host_sg_id]  # This is additional cluster SG and the default cluster SG will be intact
+}

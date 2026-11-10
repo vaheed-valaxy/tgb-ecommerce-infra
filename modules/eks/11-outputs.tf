@@ -1,0 +1,59 @@
+output "cluster_name" {
+  description = "Name of the EKS cluster"
+  value       = aws_eks_cluster.main.name
+}
+
+output "cluster_arn" {
+  description = "ARN of the EKS cluster"
+  value       = aws_eks_cluster.main.arn
+}
+
+output "cluster_version" {
+  description = "Name of the EKS cluster"
+  value       = aws_eks_cluster.main.version
+}
+
+output "cluster_endpoint" {
+  description = "Endpoint for the EKS cluster API server"
+  value       = aws_eks_cluster.main.endpoint
+}
+
+output "cluster_ca" {
+  description = "Base64 encoded certificate authority data for the EKS cluster"
+  value       = aws_eks_cluster.main.certificate_authority[0].data
+}
+
+output "oidc_provider_arn" {
+  description = "ARN of the OIDC Provider for IRSA"
+  value       = aws_iam_openid_connect_provider.eks_oidc.arn
+}
+
+output "oidc_provider_url" {
+  description = "URL of the OIDC Provider for IRSA"
+  value       = aws_iam_openid_connect_provider.eks_oidc.url
+}
+
+output "main_node_group_arn" {
+  description = "ARN of the EKS Node Group"
+  value       = aws_eks_node_group.main.arn
+}
+
+output "ci_node_group_arn" {
+  description = "ARN of the EKS Node Group"
+  value       = var.create_ci_nodegroup ? aws_eks_node_group.ci[0].arn : "NO CI NODEGROUP CREATED"
+}
+
+output "cluster_security_group_id" {
+  description = "Security group ID automatically created by EKS and attached to managed nodes"
+  value       = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
+}
+
+output "node_security_group_id" {
+  description = "EKS Node Security Group"
+  value       = aws_security_group.eks_node_sg.id
+}
+
+#output "to_configure_kubectl" {
+#  description = "Command to update local kubeconfig to connect to the EKS cluster"
+#  value       = "aws eks --region ${var.region} update-kubeconfig --name ${var.cluster_name}"
+#}
