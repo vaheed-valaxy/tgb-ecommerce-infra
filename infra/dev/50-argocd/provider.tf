@@ -22,7 +22,7 @@ terraform {
 
   # Remote Backend
   backend "s3" {
-    bucket         = "shopverse-dev-tfstate-123"
+    bucket         = "ecommerce-dev-tfstate-123"
     key            = "platform-addon/argocd/terraform.tfstate"
     region         = "us-east-1"
     use_lockfile   = true       # Enables native S3 state locking (Terraform 1.10+)
