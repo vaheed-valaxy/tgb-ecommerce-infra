@@ -7,7 +7,7 @@ data "aws_iam_policy_document" "gha_arc_runner_trust_policy" {
     condition {
       test     = "StringEquals"
       variable = "${replace(local.eks_oidc_provider_url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:arc-runners:shopverse-gha-arc-runner-sa"]
+      values   = ["system:serviceaccount:arc-runners:ecommerce-gha-arc-runner-sa"]
     }
 
     condition {
@@ -95,9 +95,9 @@ resource "aws_iam_policy" "gha_arc_runner_policy" {
         # Resource = "arn:aws:ecr:*:${local.aws_account_id}:repository/*"
 
         Resource = [
-          "arn:aws:ecr:${var.region}:${local.aws_account_id}:repository/shopverse-dev/*",
-          "arn:aws:ecr:${var.region}:${local.aws_account_id}:repository/shopverse-qa/*",
-          "arn:aws:ecr:${var.region}:${local.aws_account_id}:repository/shopverse/*"
+          "arn:aws:ecr:${var.region}:${local.aws_account_id}:repository/ecommerce-dev/*",
+          "arn:aws:ecr:${var.region}:${local.aws_account_id}:repository/ecommerce-qa/*",
+          "arn:aws:ecr:${var.region}:${local.aws_account_id}:repository/ecommerce/*"
         ]
       }
     ]
