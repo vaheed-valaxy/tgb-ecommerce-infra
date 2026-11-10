@@ -1,7 +1,7 @@
-githubConfigUrl: "https://github.com/vaheed-valaxy/tgb-shopverse-gitops"
-githubConfigSecret: "shopverse-gitops-gha-arc-token"
+githubConfigUrl: "https://github.com/vaheed-valaxy/tgb-ecommerce-gitops"
+githubConfigSecret: "ecommerce-gitops-gha-arc-token"
 
-runnerScaleSetName: "shopverse-dev-runners"
+runnerScaleSetName: "ecommerce-dev-runners"
 minRunners: 1
 maxRunners: 3
 
@@ -18,7 +18,7 @@ containerMode:
 resourceMeta:
   noPermissionServiceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::254405569649:role/shopverse-dev-gha-arc-runner-role"    # ShopverseDevArcRunnerECRRole
+      eks.amazonaws.com/role-arn: "arn:aws:iam::254405569649:role/ecommerce-dev-gha-arc-runner-role"    # ecommerceDevArcRunnerECRRole
       
 # Node Selector & Tolerations
 template:
@@ -42,4 +42,4 @@ template:
         # command:                                               # Working
         #   - /home/runner/run.sh
 
-# 254405569649.dkr.ecr.us-east-1.amazonaws.com/shopverse-dev-arc-runner:v1
+# 254405569649.dkr.ecr.us-east-1.amazonaws.com/ecommerce-dev-arc-runner:v1
