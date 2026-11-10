@@ -15,7 +15,7 @@ resource "helm_release" "controller" {
 # ARC Runner Scale Set
 # -------------------------------------------------------
 resource "helm_release" "runners" {
-  name       = "shopverse-dev-runners"
+  name       = "ecommerce-dev-runners"
   namespace  = "arc-runners"
   repository = "oci://ghcr.io/actions/actions-runner-controller-charts"
   chart      = "gha-runner-scale-set"
@@ -29,10 +29,10 @@ resource "helm_release" "runners" {
       githubConfigUrl = "https://github.com/${var.github_org}/${var.github_repo}"
 
       # Existing Kubernetes Secret in arc-runners
-      githubConfigSecret = "shopverse-gitops-gha-arc-token"
+      githubConfigSecret = "ecommerce-gitops-gha-arc-token"
 
       # Runner scale set configuration
-      runnerScaleSetName = "shopverse-dev-runners"
+      runnerScaleSetName = "ecommerce-dev-runners"
       minRunners         = 1
       maxRunners         = 3
 
