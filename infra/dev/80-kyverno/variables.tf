@@ -1,6 +1,6 @@
-variable "project" { default = "shopverse" }
+variable "project" { default = "ecommerce" }
 variable "env"     { default = "dev" }
 variable "region"  { default = "us-east-1" }
 
-variable "remote_state_s3_bucket"     { default = "shopverse-dev-tfstate-123" }                   # To read EKS output values
-variable "remote_state_s3_bucket_key" { default = "shopverse-vpc-eks/terraform.tfstate" }
+variable "remote_state_s3_bucket"     { default = "ecommerce-dev-tfstate-123" }                   # To read EKS output values
+variable "remote_state_s3_bucket_key" { default = "ecommerce-vpc-eks/terraform.tfstate" }
