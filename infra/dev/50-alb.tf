@@ -49,49 +49,7 @@ module "alb" {
   listener_mode = "http"    # https, http_to_https
   # acm_certificate_arn = var.acm_certificate_arn
 
-  services = {
-    # default = {
-    #   tg_name       = "${local.resource_name}-product-tg"
-    #   port          = 8001
-    #   health_path   = "/health"
-    #   path_patterns = ["/*"]
-    #   priority      = 500
-    # }
-
-    product = {
-      tg_name       = "${local.resource_name}-product-tg"
-      port          = 8001
-      health_path   = "/health"
-      path_patterns = ["/products*"]
-      priority      = 100
-    }
-
-    cart = {
-      tg_name       = "${local.resource_name}-cart-tg"
-      port          = 8002
-      health_path   = "/health"
-      path_patterns = ["/cart*"]   
-      priority      = 200
-    }
-
-    user = {
-      tg_name       = "${local.resource_name}-user-tg"
-      port          = 8003
-      health_path   = "/health"
-      path_patterns = ["/user*"]   
-      priority      = 300
-    }
-
-    order = {
-      tg_name       = "${local.resource_name}-order-tg"
-      port          = 8004
-      health_path   = "/health"
-      path_patterns = ["/order*"]   
-      priority      = 400
-    }
-  }
-
-  # path_patterns = ["/api/*"]
+  services = local.microservices
 
   project      = var.project
   env          = var.env
