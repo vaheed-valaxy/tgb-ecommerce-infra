@@ -1,0 +1,27 @@
+# ----------------------------------------------------------
+# Create Namespace: "ecommerce-dev"
+# ----------------------------------------------------------
+# resource "kubernetes_namespace_v1" "ecommerce_dev" {
+#  metadata {
+#    name = var.namespace     # ecommerce-dev
+
+#    labels = {
+#      "app.kubernetes.io/part-of" = var.project
+#      "environment"               = var.env
+#    }
+#  }
+# }
+
+# ----------------------------------------------------------
+# Create Service Account: "cart-sa"
+# ----------------------------------------------------------
+resource "kubernetes_service_account" "cart_sa" {
+  metadata {
+    name      = var.service_account       # car-sa
+    namespace = var.namespace             # ecommerce-dev
+
+    annotations = {
+      "eks.amazonaws.com/role-arn" = aws_iam_role.cart_role.arn
+    }
+  }
+}
