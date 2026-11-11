@@ -41,7 +41,7 @@ module "alb" {
   alb_name     = "${local.resource_name}-alb"
   internal     = true
   alb_sg_ids   = [module.alb_sg.sg_id]
-  subnets      = module.vpc.public_subnet_ids 
+  subnets      = module.vpc.private_subnet_ids 
 
   target_type  = "ip"
   vpc_id       = module.vpc.vpc_id
