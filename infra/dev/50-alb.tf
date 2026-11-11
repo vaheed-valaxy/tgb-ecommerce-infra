@@ -1,3 +1,7 @@
+# ====================================================================================
+# API Gateway VPC Link → Internal ALB (HTTP 80) → EKS microservices (ports 8001–8004)
+# ====================================================================================
+
 # Security Group for ALB
 module "alb_sg" {
   source = "git::https://github.com/vaheedgit26/Infra-1.0.git//modules/sg"
