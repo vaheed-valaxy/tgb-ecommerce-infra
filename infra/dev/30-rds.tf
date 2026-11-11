@@ -1,30 +1,30 @@
-module "rds_mysql_sg" {
+module "rds_postgre_sg" {
   source = "git::https://github.com/vaheedgit26/Infra-1.0.git//modules/sg"
 
   vpc_id         = module.vpc.vpc_id
-  sg_name        = "${local.resource_name}-rds-sg"
-  sg_description = "Mysql RDS Instance Security Group"
+  sg_name        = "${local.resource_name}-rds-postgre-sg"
+  sg_description = "Postgre RDS Instance Security Group"
 
   common_tags    = local.common_tags
 }
 
 # bastion (public_subnet) ---> mysql (database_subnet)
-resource "aws_security_group_rule" "bastion_to_mysql" {
+resource "aws_security_group_rule" "bastion_to_postgre" {
   type                     = "ingress"
-  from_port                = 3306
-  to_port                  = 3306
+  from_port                = 5432
+  to_port                  = 5432
   protocol                 = "tcp"
   source_security_group_id = local.bastion_sg_id
-  security_group_id        = module.rds_mysql_sg.sg_id
+  security_group_id        = module.rds_postgre_sg.sg_id
 
   # depends_on = [module.bastion_sg]
 }
 
 # EKS cluster  --->  mysql (database_subnet)
-resource "aws_security_group_rule" "backend_to_mysql" {
+resource "aws_security_group_rule" "backend_to_postgre" {
   type                     = "ingress"
-  from_port                = 3306
-  to_port                  = 3306
+  from_port                = 5432
+  to_port                  = 5432
   protocol                 = "tcp"
   source_security_group_id = module.eks.node_security_group_id
   security_group_id        = module.rds_mysql_sg.sg_id
@@ -39,19 +39,19 @@ module "rds" {
 
   identifier              = local.identifier
   availability_zone       = local.availability_zone        # var.availability_zone
-  engine                  = "mysql"
-  engine_version          = "8.0.46"
+  engine                  = "postgres"
+  engine_version          = "15.7"
   instance_class          = "db.t3.micro"
-  allocated_storage       = 10  # 20
+  allocated_storage       = 10       # 20
   storage_type            = "gp2"
-  storage_encrypted       = false   # true
-  db_name                 = "shopverse"
-  db_username             = local.shopverse_secret_json.username
-  db_password             = local.shopverse_secret_json.password
+  storage_encrypted       = false    # true
+  db_name                 = "ecommerce"
+  db_username             = local.ecommerce_secret_json.username
+  db_password             = local.ecommerce_secret_json.password
   db_subnet_group_name    = local.db_subnet_group_name
   vpc_security_group_ids  = [module.rds_mysql_sg.sg_id]
 
   common_tags = local.common_tags
 
-  depends_on = [ module.rds_mysql_sg, aws_security_group_rule.bastion_to_mysql, aws_security_group_rule.backend_to_mysql ]
+  depends_on = [ module.rds_postgre_sg, aws_security_group_rule.bastion_to_postgre, aws_security_group_rule.backend_to_postgre ]
 }
