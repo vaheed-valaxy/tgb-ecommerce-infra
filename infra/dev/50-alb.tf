@@ -44,6 +44,18 @@ resource "aws_security_group" "apigw_vpc_link_sg" {
   })
 }
 
+# ALB allows traffic from VPC LINK
+resource "aws_security_group_rule" "vpc_link_to_alb" {
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+
+  security_group_id        = module.alb_sg.sg_id
+  source_security_group_id = aws_security_group.apigw_vpc_link_sg.id
+}
+
+
 # ALB Module Calling
 module "alb" {
   source = "git::https://github.com/vaheedgit26/Infra-1.0.git//modules/alb"
