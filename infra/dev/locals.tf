@@ -39,4 +39,41 @@ locals {
   db_subnet_group_name       = "${local.resource_name}-postgre-rds-db-subnet-group"
   
   # rds_vpc_security_group_ids = [module.eks.cluster_security_group_id, module.bastion_sg.sg_id]
+
+  # ALB Target Groups
+  microservices = {
+    product = {
+      tg_name       = "${local.resource_name}-product-tg"
+      port          = 8001
+      health_path   = "/health"
+      path_patterns = ["/products*"]
+      priority      = 100
+    }
+
+    cart = {
+      tg_name       = "${local.resource_name}-cart-tg"
+      port          = 8002
+      health_path   = "/health"
+      path_patterns = ["/cart*"]
+      priority      = 200
+    }
+
+    user = {
+      tg_name       = "${local.resource_name}-user-tg"
+      port          = 8003
+      health_path   = "/health"
+      path_patterns = ["/user*"]
+      priority      = 300
+    }
+
+    order = {
+      tg_name       = "${local.resource_name}-order-tg"
+      port          = 8004
+      health_path   = "/health"
+      path_patterns = ["/order*"]
+      priority      = 400
+    }
+
+  }
+
 }
