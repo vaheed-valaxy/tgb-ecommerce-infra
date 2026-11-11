@@ -19,14 +19,19 @@ resource "aws_security_group_rule" "internet_to_alb" {
   security_group_id = module.alb_sg.sg_id 
 }
 
-# EKS nodes allowing traffic from ALB on port 8080
+# Allow ALB traffic to all EKS microservices
 resource "aws_security_group_rule" "alb_to_eks_nodegroup" {
-  type              = "ingress"
-  from_port         = 8080
-  to_port           = 8080
-  protocol          = "tcp"
-  security_group_id = module.eks.node_security_group_id
-  source_security_group_id = module.alb_sg.sg_id 
+  for_each = local.microservices
+
+  type                     = "ingress"
+  from_port                = each.value.port
+  to_port                  = each.value.port
+  protocol                 = "tcp"
+
+  security_group_id        = module.eks.node_security_group_id
+  source_security_group_id = module.alb_sg.sg_id
+
+  description = "Allow ALB traffic to ${each.key} microservice"
 }
 
 # ALB Module Calling
