@@ -30,13 +30,13 @@ locals {
     "k8s.io/cluster-autoscaler/${local.eks_cluster_name}" = "owned"
   }
 
-  aws_secret_name        = "/${var.project}/${var.env}/mysql-jwt-credentials"      # /shopverse/dev/mysql-jwt-credentials
+  aws_secret_name        = "/${var.project}/${var.env}/postgre-jwt-credentials"      # /shopverse/dev/postgre-jwt-credentials
 
   # RDS Variables
-  identifier                 = "${local.resource_name}-mysql"
+  identifier                 = "${local.resource_name}-postgre"
   availability_zone          = module.vpc.availability_zones[0]
-  shopverse_secret_json      = jsondecode(data.aws_secretsmanager_secret_version.shopverse_secret_value.secret_string)
-  db_subnet_group_name       = "${local.resource_name}-mysql-rds-db-subnet-group"
+  shopverse_secret_json      = jsondecode(data.aws_secretsmanager_secret_version.ecommerce_secret_value.secret_string)
+  db_subnet_group_name       = "${local.resource_name}-postgre-rds-db-subnet-group"
   
   # rds_vpc_security_group_ids = [module.eks.cluster_security_group_id, module.bastion_sg.sg_id]
 }
