@@ -34,7 +34,7 @@ module "alb" {
   source = "git::https://github.com/vaheedgit26/Infra-1.0.git//modules/alb"
 
   alb_name     = "${local.resource_name}-alb"
-  internal     = false
+  internal     = true
   alb_sg_ids   = [module.alb_sg.sg_id]
   subnets      = module.vpc.public_subnet_ids 
 
@@ -45,20 +45,44 @@ module "alb" {
   # acm_certificate_arn = var.acm_certificate_arn
 
   services = {
-    frontend = {
-      tg_name       = "${local.resource_name}-frontend-tg"
-      port          = 8080
+    default = {
+      tg_name       = "${local.resource_name}-product-tg"
+      port          = 8001
       health_path   = "/health"
       path_patterns = ["/*"]
+      priority      = 500
+    }
+
+    product = {
+      tg_name       = "${local.resource_name}-product-tg"
+      port          = 8001
+      health_path   = "/health"
+      path_patterns = ["/products*"]
+      priority      = 100
+    }
+
+    cart = {
+      tg_name       = "${local.resource_name}-cart-tg"
+      port          = 8002
+      health_path   = "/health"
+      path_patterns = ["/cart*"]   
       priority      = 200
     }
 
-    backend = {
-      tg_name       = "${local.resource_name}-backend-tg"
-      port          = 8080
+    user = {
+      tg_name       = "${local.resource_name}-user-tg"
+      port          = 8003
       health_path   = "/health"
-      path_patterns = ["/api", "/api/*"]   
-      priority      = 100
+      path_patterns = ["/user*"]   
+      priority      = 300
+    }
+
+    order = {
+      tg_name       = "${local.resource_name}-order-tg"
+      port          = 8004
+      health_path   = "/health"
+      path_patterns = ["/order*"]   
+      priority      = 400
     }
   }
 
