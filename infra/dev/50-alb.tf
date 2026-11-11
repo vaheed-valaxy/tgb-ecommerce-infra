@@ -80,7 +80,8 @@ module "alb" {
   depends_on = [
     module.alb_sg,
     aws_security_group_rule.alb_to_eks_nodegroup,
-    aws_security_group.apigw_vpc_link_sg
+    aws_security_group.apigw_vpc_link_sg,
+    aws_security_group_rule.vpc_link_to_alb
   ]
 
 }
