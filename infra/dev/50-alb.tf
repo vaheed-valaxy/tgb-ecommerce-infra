@@ -45,13 +45,13 @@ module "alb" {
   # acm_certificate_arn = var.acm_certificate_arn
 
   services = {
-    default = {
-      tg_name       = "${local.resource_name}-product-tg"
-      port          = 8001
-      health_path   = "/health"
-      path_patterns = ["/*"]
-      priority      = 500
-    }
+    # default = {
+    #   tg_name       = "${local.resource_name}-product-tg"
+    #   port          = 8001
+    #   health_path   = "/health"
+    #   path_patterns = ["/*"]
+    #   priority      = 500
+    # }
 
     product = {
       tg_name       = "${local.resource_name}-product-tg"
