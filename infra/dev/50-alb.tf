@@ -24,6 +24,7 @@ resource "aws_security_group_rule" "alb_to_eks_nodegroup" {
   description = "Allow ALB traffic to ${each.key} microservice"
 }
 
+# VPC Link Security Group (No inbound needed, APIGATEWAY will discover through integration)
 resource "aws_security_group" "apigw_vpc_link_sg" {
   name        = "${local.resource_name}-apigw-vpc-link-sg"
   description = "Security group for API Gateway VPC Link V2"
