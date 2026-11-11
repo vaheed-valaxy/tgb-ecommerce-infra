@@ -9,16 +9,6 @@ module "alb_sg" {
   common_tags    = local.common_tags
 }
 
-# ALB allowing traffic from internet
-resource "aws_security_group_rule" "internet_to_alb" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = module.alb_sg.sg_id 
-}
-
 # Allow ALB traffic to all EKS microservices
 resource "aws_security_group_rule" "alb_to_eks_nodegroup" {
   for_each = local.microservices
@@ -32,6 +22,25 @@ resource "aws_security_group_rule" "alb_to_eks_nodegroup" {
   source_security_group_id = module.alb_sg.sg_id
 
   description = "Allow ALB traffic to ${each.key} microservice"
+}
+
+resource "aws_security_group" "apigw_vpc_link_sg" {
+  name        = "${local.resource_name}-apigw-vpc-link-sg"
+  description = "Security group for API Gateway VPC Link V2"
+  vpc_id      = module.vpc.vpc_id
+
+  # Only allow outbound HTTP traffic to ALB
+  egress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [module.alb_sg.sg_id]
+    description     = "Allow HTTP traffic to internal ALB"
+  }
+
+  tags = merge(local.common_tags, {
+    Name = "${local.resource_name}-apigw-vpc-link-sg"
+  })
 }
 
 # ALB Module Calling
@@ -55,10 +64,11 @@ module "alb" {
   env          = var.env
   common_tags  = local.common_tags
 
-  depends_on = [ 
-    module.alb_sg, 
-    aws_security_group_rule.internet_to_alb, 
-    aws_security_group_rule.alb_to_eks_nodegroup
+  depends_on = [
+    module.alb_sg,
+    aws_security_group_rule.alb_to_eks_nodegroup,
+    aws_security_group.apigw_vpc_link_sg
+    
   ]
 
 }
