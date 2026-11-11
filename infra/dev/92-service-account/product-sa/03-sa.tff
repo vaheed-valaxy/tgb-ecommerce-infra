@@ -1,7 +1,24 @@
+# ----------------------------------------------------------
+# Create Namespace: "ecommerce-dev"
+# ----------------------------------------------------------
+resource "kubernetes_namespace_v1" "arc_runners" {
+  metadata {
+    name = var.namespace     # ecommerce-dev
+
+    labels = {
+      "app.kubernetes.io/part-of" = var.project
+      "environment"               = var.env
+    }
+  }
+}
+
+# ----------------------------------------------------------
+# Create Service Account: "product-sa"
+# ----------------------------------------------------------
 resource "kubernetes_service_account" "product_sa" {
   metadata {
-    name      = var.service_account_name
-    namespace = var.namespace
+    name      = var.service_account       # product-sa
+    namespace = kubernetes_namespace_v1.arc_runners.metadata[0].name    # var.namespace     # ecommerce-dev
 
     annotations = {
       "eks.amazonaws.com/role-arn" = aws_iam_role.product_role.arn
