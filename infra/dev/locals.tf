@@ -30,7 +30,7 @@ locals {
     "k8s.io/cluster-autoscaler/${local.eks_cluster_name}" = "owned"
   }
 
-  aws_secret_name        = "/${var.project}/${var.env}/postgre-jwt-credentials"      # /ecommerce/dev/postgre-jwt-credentials
+  aws_secret_name = "/${var.project}/${var.env}/postgre-jwt-credentials"      # /ecommerce/dev/postgre-jwt-credentials
 
   # RDS Variables
   identifier                 = "${local.resource_name}-postgre"
