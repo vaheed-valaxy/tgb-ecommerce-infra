@@ -8,7 +8,7 @@ module "rds_postgre_sg" {
   common_tags    = local.common_tags
 }
 
-# bastion (public_subnet) ---> mysql (database_subnet)
+# bastion (public_subnet) ---> postgre (database_subnet)
 resource "aws_security_group_rule" "bastion_to_postgre" {
   type                     = "ingress"
   from_port                = 5432
@@ -20,7 +20,7 @@ resource "aws_security_group_rule" "bastion_to_postgre" {
   # depends_on = [module.bastion_sg]
 }
 
-# EKS cluster  --->  mysql (database_subnet)
+# EKS cluster  --->  postgre (database_subnet)
 resource "aws_security_group_rule" "backend_to_postgre" {
   type                     = "ingress"
   from_port                = 5432
