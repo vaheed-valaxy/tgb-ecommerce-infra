@@ -23,7 +23,7 @@ terraform {
   # Remote Backend
   backend "s3" {
     bucket         = "ecommerce-dev-tfstate-123"
-    key            = "cart-sa/terraform.tfstate"
+    key            = "service-account/cart-sa/terraform.tfstate"
     region         = "us-east-1"
     use_lockfile   = true   # Enables native S3 state locking (Terraform 1.10+)
     # encrypt        = true
