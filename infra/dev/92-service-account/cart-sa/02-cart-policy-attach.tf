@@ -1,4 +1,4 @@
-resource "aws_iam_policy" "cart_dynamodb_policy"" {
+resource "aws_iam_policy" "cart_dynamodb_policy" {
   name = "${local.resource_name}-dynamodb-access"
   description = "Allow product pod to access ${var.dynamodb_table} dynamo db table"
 
