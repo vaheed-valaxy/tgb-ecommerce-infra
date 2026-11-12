@@ -1,12 +1,14 @@
 module "ecr" {
   source = "git::https://github.com/vaheedgit26/Infra-1.0.git//modules/ecr"
 
-  project = var.project   # "shopverse"
+  project = var.project   # "ecommerce"
   env     = var.env       # "dev"
   
   repositories = [
-    "shopverse-dev/frontend",
-    "shopverse-dev/backend"
+    "ecommerce-dev/product",
+    "ecommerce-dev/cart",
+    "ecommerce-dev/user",
+    "ecommerce-dev/order"
   ]
   
 }
