@@ -15,6 +15,7 @@ terraform apply -target=module.alb
 terraform apply argocd
 terraform apply eso
 terraform apply aws-lbc
+terraform apply service-accounts (Product, Cart)
 ```
 ## 2. If u want ARC Runner for CI
 ```bash
@@ -32,14 +33,14 @@ kubectl apply -f dev-external-secrets.yaml
 
 ## 4. If u want ARC Runner 
 - **for CI**  
-repo: `tgb-shopverse-gitops`  
+repo: `tgb-ecommerce-gitops`  
 ```bash
 cd k8s/rbac/platform
 
 kubectl apply -f gha-arc-runner-sa.yaml
 ```
 - **for GITOPS**                         
-repo: `tgb-shopverse-gitops`  
+repo: `tgb-ecommerce-gitops`  
 ```bash
 cd k8s/rbac/platform
 
@@ -47,12 +48,14 @@ kubectl apply -f gitops-arc-runner-sa-perms.yaml
 ```
 
 ## 5. Create ARC Runner ArgoCD applications    
-repo: `tgb-shopverse-gitops`  
+repo: `tgb-ecommerce-gitops`  
 
 - **Create Secret**  
 ```bash
 # Create secret
-# Fine grained Token: tgb-shopverse-infra, backend, frontend, gitops (Admin: read and write)
+# Fine grained Token: tgb-ecommerce-infra, app, gitops (Admin: read and write)
+
+kubectl create namespace arc-runners
 
 kubectl create secret generic shopverse-gha-arc-token \
   -n arc-runners \
@@ -71,26 +74,27 @@ cd argocd/platform/gha-arc-runners/apps
 
 kubectl apply -f 01-controller.yaml
 kubectl apply -f 02-infra-arc-runner.yaml
-kubectl apply -f 03-frontend-arc-runner.yaml
-kubectl apply -f 04-backend-arc-runner.yaml
-kubectl apply -f 05-gitops-arc-runner.yaml
+kubectl apply -f 03-product-arc-runner.yaml
+kubectl apply -f 04-cart-arc-runner.yaml
+kubectl apply -f 05-user-arc-runner.yaml
+kubectl apply -f 06-order-arc-runner.yaml
+kubectl apply -f 07-gitops-arc-runner.yaml
 ```
 
 ## 6. Create Project related ArgoCD Applications  
-repo: `tgb-shopverse-gitops`  
+repo: `tgb-ecommerce-gitops`  
 
 - **Create Project**  
 ```bash
 cd argocd/dev/projects
-kubectl apply -f shopverse-dev.yaml
+kubectl apply -f ecommerce-dev.yaml
 ```
-- **Create ApplicationSet**  
+- **Create ApplicationSet**
+> **Note**: Create a token for argocd project and create a secret DEV_ARGOCD_AUTH_TOKEN with that token in gitops Repo
 ```bash
-cd atgocd/dev/apps
+cd argocd/dev/apps
 kubectl apply -f applicationset.yaml
 ```
-
-
 
 
 
