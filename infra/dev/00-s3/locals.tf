@@ -1,6 +1,6 @@
 locals {
 
-  s3_bucket_name = "tfstate-${var.project}-${var.env}-${var.region}"
+  s3_bucket_name = "${var.project}-${var.env}-tfstate-123"
 
   common_tags = {
     Project     = var.project
