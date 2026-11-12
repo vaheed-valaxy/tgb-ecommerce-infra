@@ -13,7 +13,7 @@ module "alb_sg" {
   common_tags    = local.common_tags
 }
 
-# Allow ALB traffic to all EKS microservices
+# Allow ALB traffic to all EKS microservices (8001-8004)
 resource "aws_security_group_rule" "alb_to_eks_nodegroup" {
   for_each = local.microservices
 
@@ -48,7 +48,7 @@ resource "aws_security_group" "apigw_vpc_link_sg" {
   })
 }
 
-# ALB allows traffic from VPC LINK
+# ALB allows traffic from VPC LINK on Port:80 only
 resource "aws_security_group_rule" "vpc_link_to_alb" {
   type                     = "ingress"
   from_port                = 80
