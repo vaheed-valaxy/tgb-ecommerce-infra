@@ -27,7 +27,7 @@ resource "aws_security_group_rule" "backend_to_postgre" {
   to_port                  = 5432
   protocol                 = "tcp"
   source_security_group_id = module.eks.node_security_group_id
-  security_group_id        = module.rds_mysql_sg.sg_id
+  security_group_id        = module.rds_postgre_sg.sg_id
 
   # depends_on = [module.backend_sg]
 }
