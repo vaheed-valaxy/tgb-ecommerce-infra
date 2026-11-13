@@ -45,7 +45,7 @@ module "rds" {
   allocated_storage       = 10       # 20
   storage_type            = "gp2"
   storage_encrypted       = false    # true
-  db_name                 = "ecommerce"
+  db_name                 = "ecommercedb"
   db_username             = local.ecommerce_secret_json.username
   db_password             = local.ecommerce_secret_json.password
   db_subnet_group_name    = local.db_subnet_group_name
