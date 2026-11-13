@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "cart_dynamodb_policy" {
-  name = "${local.resource_name}-cart-dynamodb-access"
+  name = "${local.resource_name}-cart-dynamodb-policy"
   description = "Allow product pod to access ${var.dynamodb_table} dynamo db table"
 
   policy = jsonencode({
