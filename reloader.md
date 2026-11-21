@@ -66,11 +66,12 @@ spec:
 ## One important consideration  
 When using this approach, remember:  
 
-Configuration change  	     What happens  
-ConfigMap changes in Git	   Argo CD syncs it, Reloader triggers rollout  
-Secret changes in AWS	       ESO syncs it, Reloader triggers rollout  
-Unrelated ConfigMap changes	 Only workloads referencing that ConfigMap should be affected  
-Unrelated Secret changes	   Only workloads referencing that Secret should be affected  
+| Configuration Change | What Happens |
+|---|---|
+| ConfigMap changes in Git | Argo CD syncs it, and Reloader triggers a rollout. |
+| Secret changes in AWS | ESO syncs it, and Reloader triggers a rollout. |
+| Unrelated ConfigMap changes | Only workloads referencing that ConfigMap should be affected. |
+| Unrelated Secret changes | Only workloads referencing that Secret should be affected. |
 
 Also, ensure Argo CD doesn't undo Reloader's generated annotation, and test the interaction between annotation reloads and your Argo CD sync settings.  
 
