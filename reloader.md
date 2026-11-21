@@ -1,4 +1,4 @@
-![Reloader Complete Flow](docs/Reloader.drawio.png)  
+![Reloader Complete Flow](docs/Reloader.drawio.svg)  
 ## Helm Deployment  
 ```yaml
 apiVersion: apps/v1
