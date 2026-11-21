@@ -1,7 +1,7 @@
 # Reloader Complete Flow  
 # ![Reloader Complete Flow](docs/Reloader.drawio.svg)  
 <div align="center">
-  <img src="docs/Reloader.drawio.svg" alt="Reloader Complete Flow" width="600"/>
+  <img src="docs/Reloader.drawio.svg" alt="Reloader Complete Flow" width="500"/>
 </div>
 ## Helm Deployment  
 ```yaml
